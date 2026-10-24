@@ -23,6 +23,7 @@ data=r.json()
 df=pd.DataFrame(data['daily'])
 df['time']=pd.to_datetime(df['time'])
 df=df.rename(columns={'time':'date'}).set_index('date')
+df['city']='agadir'
 print(df.isna().sum())
 print(df.head())
 df.to_csv('agadir_2010_2025.csv')
