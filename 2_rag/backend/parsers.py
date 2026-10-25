@@ -12,6 +12,9 @@ def add_pdfs():
         loader=PyPDFLoader(str(file))
         raw_docs=loader.load()
         docs=text_splitter.split_documents(raw_docs)
+        for (i,doc ) in enumerate (docs):
+            doc.metadata['source']=str(file.name)
+            doc.metadata['id']=f"{file.stem}_{i}"
         vector_store.add_documents(documents=docs)
     print("New documents added to mongodb database!")
 
@@ -21,6 +24,9 @@ def add_docxs():
         loader=Docx2txtLoader(str(file))
         raw_docs=loader.load()
         docs=text_splitter.split_documents(raw_docs)
+        for (i,doc) in enumerate (docs):
+            doc.metadata['source']=str(file.name)
+            doc.metadata['id']=f"{file.stem}_{i}"
         vector_store.add_documents(documents=docs)
     print("New word documents added to mongodb database!")
 
@@ -31,11 +37,17 @@ def add_documents():
             loader=PyPDFLoader(str(file))
             raw_docs=loader.load()
             docs=text_splitter.split_documents(raw_docs)
+            for (i,doc) in enumerate (docs):
+                doc.metadata['source']=str(file.name)
+                doc.metadata['id']=f"{file.stem}_{i}"
             vector_store.add_documents(documents=docs)
         if file.suffix.lower()==".docx":
             loader=Docx2txtLoader(str(file))
             raw_docs=loader.load()
             docs=text_splitter.split_documents(raw_docs)
+            for (i,doc) in enumerate(docs):
+                doc.metadata['source']=str(file.name)
+                doc.metadata['id']=f"{file.stem}_{i}"
             vector_store.add_documents(documents=docs)
     print("New docx/pdf documents added to the mongodb database!")
 
