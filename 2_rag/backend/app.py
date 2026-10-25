@@ -1,6 +1,7 @@
 from fastapi import FastAPI 
 from parsers import add_pdfs,add_docxs,add_documents
 from show_docs import show_docs
+from delete_docs import delete_by_id,delete_all  
 app=FastAPI()
 
 #Here are my get endpoints
@@ -20,3 +21,11 @@ def ingest_pdfs():
 @app.post("/add_documents")
 def ingest_documents():
     return add_documents()
+#Here are my delete endpoints:
+@app.delete("delete_all")
+def delete_db_docs():
+    return delete_all()
+@app.delete("delete_by_id")
+def delete_doc_by_id(document_id):
+    return delete_by_id(document_id)
+
