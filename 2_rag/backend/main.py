@@ -1,4 +1,5 @@
-from fastapi import FastAPI 
+from fastapi import FastAPI
+from schemas import QuestionRequest
 from parsers import add_pdfs,add_docxs,add_documents
 from show_docs import show_docs
 from delete_docs import delete_by_id,delete_all  
@@ -9,7 +10,7 @@ app=FastAPI()
 def health_check():
     return {"Running":"True"}
 @app.get("/ask_rag_question")
-def ask_question:
+def ask_question(request:QuestionRequest):
     return ask_rag_question(request)
 @app.get("/show_docs")
 def list_docs():
@@ -34,5 +35,5 @@ def delete_doc_by_id(document_id:str):
 #Here is my point endpoint:
 @app.put("/update/{document_id}")
 def update_doc_by_id(document_id:str):
-    delete_doc_by_id(document_id:str)
+    delete_doc_by_id(document_id)
     return add_documents()
