@@ -8,6 +8,9 @@ app=FastAPI()
 @app.get("/health")
 def health_check():
     return {"Running":"True"}
+@app.get("/ask_rag_question")
+def ask_question:
+    return ask_rag_question(request)
 @app.get("/show_docs")
 def list_docs():
     return show_docs()

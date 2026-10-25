@@ -12,7 +12,7 @@ def ask_rag_question(request:QuestionRequest):
     try :
         cursor=collection.find_all({})
         for item in cursor:
-            documents.append(Document(page_content=item.get("text",""),metadata={"source":item,get("source",""),"id":item.get("id","")}))
+            documents.append(Document(page_content=item.get("text",""),metadata={"source":item.get("source",""),"id":item.get("id","")}))
     except Exception as e:
         print(f"Error while loading chunks {e}")
     if documents:
