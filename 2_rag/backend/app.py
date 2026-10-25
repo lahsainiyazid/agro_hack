@@ -22,10 +22,14 @@ def ingest_pdfs():
 def ingest_documents():
     return add_documents()
 #Here are my delete endpoints:
-@app.delete("delete_all")
+@app.delete("/delete_all")
 def delete_db_docs():
     return delete_all()
-@app.delete("delete_by_id")
-def delete_doc_by_id(document_id):
+@app.delete("/delete/{document_id}")
+def delete_doc_by_id(document_id:str):
     return delete_by_id(document_id)
-
+#Here is my point endpoint:
+@app.put("/update/{document_id}")
+def update_doc_by_id(document_id:str):
+    delete_doc_by_id(document_id:str)
+    return add_documents()
