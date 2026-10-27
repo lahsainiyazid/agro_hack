@@ -1,6 +1,6 @@
 from typing_extensions import TypedDict 
 from typing import NotRequired,Optional
-from objects import Farmer
+from utils.objects import Farmer
 
 class GenerateFarmerState(TypedDict):
     topic:str
