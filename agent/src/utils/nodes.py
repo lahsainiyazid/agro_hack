@@ -14,8 +14,8 @@ def create_farmer(state:GenerateFarmerState):
     topic=state.get("topic","")
     human_feedback=state.get("human_feedback","")
     structured_llm=llm.with_structured_output(Farmer)
-    system_message=prompt.structure(topic=topic,
+    system_message=prompt.format(topic=topic,
                                     human_feedback=human_feedback)
-    farmer=structured_llm.invoke([SystemMessage(content=system_message)],[HumanMessage(content="Please generate the farmer")])
-    return {"farmer":farmer.farmer}
+    farmer=structured_llm.invoke([SystemMessage(content=system_message),HumanMessage(content="Please generate the farmer")])
+    return {"farmer":farmer}
 
