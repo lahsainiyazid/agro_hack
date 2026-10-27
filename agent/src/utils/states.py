@@ -2,8 +2,8 @@ from typing_extensions import TypedDict
 from typing import NotRequired,Optional
 from objects import Farmer
 
-class Farmer(TypedDict):
-    question:str
+class GenerateFarmerState(TypedDict):
+    topic:str
     human_feedback:NotRequired[str]
-    farmers:NotRequired[List[Farmer]]
+    farmer:Farmer
 
