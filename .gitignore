@@ -2,3 +2,4 @@
 .env
 datasets
 guides
+__pycache__

@@ -1,6 +1,6 @@
 prompt="""
- You are assigned to create a farmer persona :
-  1-First review the topic {topic}
-  2-Examine any human feedback {human_feedback}
-  3-assign one farmer for this topic 
+ You are assigned to create a recommendation based on the context :
+  1-Look at the sensors data{sensor_readings}
+  2-Look at the plots {plots}
+  3-Generate recommendation{recommendation}
     """

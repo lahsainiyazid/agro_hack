@@ -1,7 +1,7 @@
 import sqlite3 
 from typing import List 
 from db_path import db_path
-def get_all_plots(db_path:pathlib)->List[str]:
+def get_all_plots(db_path:pathlib)->List[Tuple]:
     try:
         conn=sqlite3.connect(db_path)
         curr=conn.cursor()
@@ -10,7 +10,7 @@ def get_all_plots(db_path:pathlib)->List[str]:
     finally:
         conn.close()
 
-def get_plots_ids(db_path:pathlib)->List[str]:
+def get_plots_ids(db_path:pathlib)->List[Tuple]:
     try:
         conn=sqlite3.connect(db_path)
         curr=conn.cursor()
