@@ -1,0 +1,8 @@
+
+{
+  "dependencies":["."],
+  "graphs":{
+    "farmer_state":"./src/creating_farmer.py:graph"
+  },
+  "env":"../../.env"
+}

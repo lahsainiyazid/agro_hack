@@ -1,5 +1,6 @@
 from src.utils.nodes import create_recommendation
 from langgraph.graph import START,END,StateGraph
+from typing import List,Tuple 
 from src.utils.objects import FarmerState 
 from dotenv import load_dotenv,find_dotenv 
 _=load_dotenv(find_dotenv())

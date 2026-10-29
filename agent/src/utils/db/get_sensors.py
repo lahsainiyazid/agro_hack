@@ -1,5 +1,5 @@
 import sqlite3 
-from typing import List,Tuples
+from typing import List,Tuple
 from src.utils.db.db_path import db_path
 
 def get_all_readings(db_path:pathlib)->List[dict]:
