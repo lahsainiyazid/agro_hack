@@ -1,5 +1,7 @@
+import os 
+import requests 
 from dotenv import load_dotenv,find_dotenv 
-from src.utils.objects import FarmerState,Recommendation 
+from src.utils.objects import FarmerState,Recommendation,SensorAnomaly 
 from src.utils.models import llm  
 from src.utils.prompts import recom_prompt,anomaly_prompt
 from src.utils.db.get_sensors import get_last_24h_readings
@@ -8,7 +10,9 @@ from src.utils.db.db_path import db_path
 from langchain.messages import SystemMessage,HumanMessage
 from langgraph.graph import END
 
-
+_=load_dotenv(find_dotenv())
+TOKEN=os.environ.get("BOT_TOKEN")
+CHAT_ID=os.environ.get("TELEGRAM_CHAT_ID")
 def create_recommendation(state:FarmerState):
     """
     Creating our recommendation!
@@ -35,7 +39,7 @@ def detect_sensor_anomalies(state:FarmerState):
     recommendation=state.get("recommendation","")
     anomaly_suspected=state.get("anomaly_suspected")
     structured_llm=llm.with_structured_output(SensorAnomaly)
-    systsem_prompt=llm.with_structured_output(
+    systsem_prompt=anomaly_prompt.format(
         sensor_readings=sensor_readings,
         plots=plots,
         recommendation=recommendation,
@@ -53,4 +57,24 @@ def sensor_anomaly_router(state:FarmerState):
     """
     if (state.get("anomaly_suspected")):
         return "detect_sensor_anomalies"
+    return END
+
+def send_alert(state:FarmerState):
+
+    """
+    Here is a small python function to send alert if there is an anomaly 
+    """
+    anomaly_report=str(state.get("anomaly_report"))
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+    payload = {
+    "chat_id": CHAT_ID,
+    "text": anomaly_report}
+    requests.post(url,json=payload)
+
+def send_alert_router(state:FarmerState):
+    """
+    Here is a simple anomlay router script to send alerts
+    """
+    if (state.get("anomaly_suspected")):
+        return "send_alert"
     return END

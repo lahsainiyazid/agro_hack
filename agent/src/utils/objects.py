@@ -7,7 +7,7 @@ class FarmerState(TypedDict):
     recommendation:str|None
     anomaly_suspected:bool 
     anomaly_report:str|None 
-     
+    is_real_anomaly:bool 
 class Recommendation(BaseModel):
     recommendation:str=Field(description="Practical recommendation to the farmer based on the farm data ")
     anomaly_suspected:bool=Field(description="Do you suspect that there is anomaly!")
