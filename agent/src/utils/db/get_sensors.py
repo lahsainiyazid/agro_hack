@@ -1,6 +1,6 @@
 import sqlite3 
-from typing import List
-from db_path import db_path
+from typing import List,Tuples
+from src.utils.db.db_path import db_path
 
 def get_all_readings(db_path:pathlib)->List[dict]:
     conn=sqlite3.connect(db_path)

@@ -1,6 +1,6 @@
 import sqlite3 
-from typing import List 
-from db_path import db_path
+from typing import List,Tuple
+from src.utils.db.db_path import db_path
 def get_all_plots(db_path:pathlib)->List[Tuple]:
     try:
         conn=sqlite3.connect(db_path)

@@ -1,11 +1,10 @@
 from dotenv import load_dotenv,find_dotenv 
-from utils.states import FarmerState 
-from utils.models import llm 
-from utils.objects import Farmer 
-from utils.prompts import prompt
-from db.get_sensors import get_last24h_readings
-from db.get_plots import get_all_plots
-from db.db_path import db_path 
+from src.utils.objects import FarmerState 
+from src.utils.models import llm  
+from src.utils.prompts import prompt
+from src.utils.db.get_sensors import get_last_24h_readings
+from src.utils.db.get_plots import get_all_plots
+from src.utils.db.db_path import db_path 
 from langchain.messages import SystemMessage,HumanMessage
 
 
@@ -15,7 +14,6 @@ def create_recommendation(state:FarmerState):
     Creating our farmer!
     """
     topic=state.get("topic","")
-    human_feedback=state.get("human_feedback","")
     plots=get_all_plots(db_path)
     sensor_readings=get_last24h_readings(db_path)
     structured_llm=llm.with_structured_output(Farmer)

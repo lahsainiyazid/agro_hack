@@ -1,8 +1,0 @@
-
-{
-  "dependencies":["."],
-  "graphs":{
-    "create_analysts":"./creating_farmer.py:graph"
-  },
-  "env":"../../.env"
-}
