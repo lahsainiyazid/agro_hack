@@ -1,9 +1,9 @@
-from typing import TypedDict,List,Tuple,Optional 
+from typing import TypedDict,List,Dict,Optional 
 from pydantic import BaseModel,Field 
 class FarmerState(TypedDict):
     topic:str|None 
-    plots:List[Tuple]|None 
-    sensor_readings:List[Tuple]|None 
+    plots:List[Dict]|None 
+    sensor_readings:List[Dict]|None 
     recommendation:str|None 
      
 class Recommendation(BaseModel):

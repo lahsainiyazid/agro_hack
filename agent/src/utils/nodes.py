@@ -11,7 +11,7 @@ from langchain.messages import SystemMessage,HumanMessage
 
 def create_recommendation(state:FarmerState):
     """
-    Creating our farmer!
+    Creating our recommendation!
     """
     topic=state.get("topic","")
     plots=get_all_plots(db_path)

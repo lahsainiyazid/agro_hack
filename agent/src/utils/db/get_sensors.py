@@ -2,54 +2,61 @@ import sqlite3
 from typing import List,Tuple
 from src.utils.db.db_path import db_path
 
-def get_all_readings(db_path:pathlib)->List[dict]:
-    conn=sqlite3.connect(db_path)
-    try:
+def get_all_readings(db_path:Pathlib)->List[dict]:
+    with sqlite3.connect(db_path) as conn:
+        conn.row_factory=sqlite3.Row 
         curr=conn.cursor()
-        curr.execute("SELECT * from sensor_readings")
-        return curr.fetchall()
-    finally:
-        conn.close()
+        curr.execute("SELECT * FROM sensor_readings")
+        return [dict(row) for row in curr.fetchall()]
+        
 def get_last_24h_readings(db_path:pathlib)->List[dict]:
-    conn=sqlite3.connect(db_path)
-    try:
+    with sqlite3.connect(db_path) as conn:
+        conn.row_factory=sqlite3.Row 
         curr=conn.cursor()
         curr.execute("""SELECT * from sensor_readings 
          where timestamp>datetime ((SELECT MAX(timestamp) from sensor_readings),'-24 hours')
          order by timestamp desc""")
-        return curr.fetchall()
-    finally:
-        conn.close()
+        return [dict(row) for row in curr.fetchall()]
 def get_last_12h_readings(db_path:pathlib)->List[dict]:
-    conn=sqlite3.connect(db_path)
-    try:
+    with sqlite3.connect(db_path) as conn:
+        conn.row_factory=sqlite3.Row 
         curr=conn.cursor()
         curr.execute("""SELECT * from sensor_readings 
          where timestamp>datetime ((SELECT MAX(timestamp) from sensor_readings),'-12 hours')
          order by timestamp desc""")
-        return curr.fetchall()
-    finally:
-        conn.close()
+        return [dict(row) for row in curr.fetchall()]
+
+
+def get_last_6h_readings(db_path:pathlib)->List[dict]:
+    with sqlite3.connect(db_path) as conn:
+        conn.row_factory=sqlite3.Row 
+        curr=conn.cursor()
+        curr.execute("""SELECT * from sensor_readings 
+         where timestamp>datetime ((SELECT MAX(timestamp) from sensor_readings),'-6 hours')
+         order by timestamp desc""")
+        return [dict(row) for row in curr.fetchall()]
+
+
 def get_last_3h_readings(db_path:pathlib)->List[dict]:
-    conn=sqlite3.connect(db_path)
-    try:
+    with sqlite3.connect(db_path) as conn:
+        conn.row_factory=sqlite3.Row 
         curr=conn.cursor()
         curr.execute("""SELECT * from sensor_readings 
          where timestamp>datetime ((SELECT MAX(timestamp) from sensor_readings),'-3 hours')
          order by timestamp desc""")
-        return curr.fetchall()
-    finally:
-        conn.close()
+        return [dict(row) for row in curr.fetchall()]
+
+
 def get_last_h_readings(db_path:pathlib)->List[dict]:
-    conn=sqlite3.connect(db_path)
-    try:
+    with sqlite3.connect(db_path) as conn:
+        conn.row_factory=sqlite3.Row 
         curr=conn.cursor()
         curr.execute("""SELECT * from sensor_readings 
          where timestamp>datetime ((SELECT MAX(timestamp) from sensor_readings),'-1 hour')
          order by timestamp desc""")
-        return curr.fetchall()
-    finally:
-        conn.close()
+        return [dict(row) for row in curr.fetchall()]
+
+
 
 if __name__=="__main__":
     my_sensors=get_all_readings(db_path)
