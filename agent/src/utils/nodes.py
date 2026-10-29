@@ -39,7 +39,7 @@ def detect_sensor_anomalies(state:FarmerState):
     recommendation=state.get("recommendation","")
     anomaly_suspected=state.get("anomaly_suspected")
     structured_llm=llm.with_structured_output(SensorAnomaly)
-    systsem_prompt=anomaly_prompt.format(
+    system_message=anomaly_prompt.format(
         sensor_readings=sensor_readings,
         plots=plots,
         recommendation=recommendation,
@@ -47,8 +47,8 @@ def detect_sensor_anomalies(state:FarmerState):
     )
     anomaly=structured_llm.invoke([SystemMessage(content=system_message),HumanMessage(content="Check if there is an anomaly or not!")])
     return {
-    "anomaly_report":anomaly.anonmaly_report,
-     "is_real_anomaly":anomaly.is_real_annomaly
+    "anomaly_report":anomaly.anomaly_report,
+     "is_real_anomaly":anomaly.is_real_anomaly
     }
 
 def sensor_anomaly_router(state:FarmerState):
