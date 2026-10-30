@@ -1,24 +1,26 @@
-from typing import TypedDict,List,Tuple,Optional 
-from pydantic import BaseModel,Field 
-class FarmerState(TypedDict):
-    topic:str|None 
-    plots:List[Tuple]|None 
-    sensor_readings:List[Tuple]|None 
-    recommendation:str|None
-    anomaly_suspected:bool 
-    anomaly_report:str|None 
-    anomalies:List[SensorAnomalyItem]
+from typing import List,Dict,TypedDict
+from pydantic import BaseModel,Field
+
+class SensorAnomalyItem(BaseModel):
+    anomaly_pair:Dict[str,bool]=Field("Key:sensor id,value:boolean is empty or not!")
+
+class SensorAnomaly(BaseModel):
+    anomaly_report:str=Field(description="Summary of detected sensor anomalies!")
+    anomalies:List[SensorAnomalyItem]=Field(description="List of anomaly assesments")
+
 class Recommendation(BaseModel):
     recommendation:str=Field(description="Practical recommendation to the farmer based on the farm data ")
     anomaly_suspected:bool=Field(description="Do you suspect that there is anomaly!")
 
-class SensorAnomaly(BaseModel):
-    anomaly_report:str=Field(description="Summary of detected sensor anomalies!")
-    anomalies:List[SensorAnomalyItem]=Field(description="Anomaly assesment for each sensor reading")
+class FarmerState(TypedDict):
+    topic:str|None 
+    plots:List[Dict]|None 
+    sensor_readings:List[Dict]|None 
+    recommendation:str|None
+    anomaly_suspected:bool 
+    anomaly_report:str|None 
+    anomalies:List[SensorAnomalyItem]
     
-class SensorAnomalyItem(BaseModel):
-    sensor_id:str=Field(description="Id of the sensor")
-    is_anomaly:bool=Field(description="Is it anomaly or not ")
-    explanation:str=Field(description="Reasoning behind why it is anomaly or not!")
+
 
 
