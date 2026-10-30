@@ -22,37 +22,15 @@ def create_recommendation(state:FarmerState):
     topic=state.get("topic","")
     plots=get_all_plots(db_path)
     sensor_readings=get_last_h_readings(db_path)
-    structured_llm=llm.with_structured_output(Recommendation)
+    structured_llm=local_llm.with_structured_output(Recommendation)
     system_message=recom_prompt.format(sensor_readings=sensor_readings,
                                  plots=plots)
     recom=structured_llm.invoke([SystemMessage(content=system_message),HumanMessage(content="Generate the best possible recommendation to our farm")])
     return {
         "plots":plots ,
         "sensor_readings":sensor_readings,
-            "recommendation":recom.recommendation,
-        "anomaly_suspected":recom.anomaly_suspected}
+            "recommendation":recom.recommendation}
     
-def detect_sensor_anomalies(state:FarmerState):
-    """
-    Here we already have a state after the first node so no need to pass our state 
-    """
-    sensor_readings=state.get("sensor_readings","")
-    plots=state.get("plots","")
-    recommendation=state.get("recommendation","")
-    anomaly_suspected=state.get("anomaly_suspected")
-    structured_llm=llm.with_structured_output(SensorAnomaly)
-    system_message=anomaly_prompt.format(
-        sensor_readings=sensor_readings,
-        plots=plots,
-        recommendation=recommendation,
-        anomaly_suspected=anomaly_suspected
-    )
-    anomaly=structured_llm.invoke([SystemMessage(content=system_message),HumanMessage(content="Check if there is a sensor anomaly for each sensor!")])
-
-    return {
-    "anomaly_report":anomaly.anomaly_report,
-     "anomalies":anomaly.anomalies
-    }
 def detect_manual_sensor_anomalies(path:Path=db_path):
     df=pd.DataFrame(get_last_h_readings(db_path))
     df["soil_moisture_anom"]=((df["soil_moisture"]<0)|(df["soil_moisture"]>100))
@@ -62,6 +40,7 @@ def detect_manual_sensor_anomalies(path:Path=db_path):
     df["rainfall_anom"]=((df["rainfall_mm"]<0)|(df["rainfall_mm"]>100))
     anomaly_cols=["soil_moisture_anom","air_temp_anom","air_hum_anom","soil_temperature_anom","rainfall_anom"]
     df_anom=df[anomaly_cols].any(axis=1)
+    has_anom=df_anom.any()
     anom_list=[{str(idx):val} for idx,val in df_anom.items()]
     structured_llm=llm.with_structured_output(SensorAnomaly)
     system_message=manual_anomaly_prompt.format(
@@ -71,7 +50,8 @@ def detect_manual_sensor_anomalies(path:Path=db_path):
     anomaly=structured_llm.invoke([SystemMessage(content=system_message),HumanMessage(content="check and explain for each sensor if there is an anomaly")])
     return {
         "anomaly_report":anomaly.anomaly_report, 
-    "anomalies":anomaly.anomalies
+    "anomalies":anomaly.anomalies,
+    "anomaly_suspected":has_anom
     }
 
 def sensor_anomaly_router(state:FarmerState):

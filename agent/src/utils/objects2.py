@@ -9,9 +9,7 @@ class SensorAnomaly(BaseModel):
     anomalies:List[SensorAnomalyItem]=Field(description="List of anomaly assesments")
 
 class Recommendation(BaseModel):
-    recommendation:str=Field(description="Practical recommendation to the farmer based on the farm data ")
-    anomaly_suspected:bool=Field(description="Do you suspect that there is anomaly!")
-
+    recommendation:str=Field(description="Recommendation to the farmer based on our data")
 class FarmerState(TypedDict):
     topic:str|None 
     plots:List[Dict]|None 
@@ -20,6 +18,7 @@ class FarmerState(TypedDict):
     anomaly_suspected:bool 
     anomaly_report:str|None 
     anomalies:List[SensorAnomalyItem]
+    anomaly_suspected:bool
     
 
 
