@@ -15,21 +15,21 @@ from langgraph.graph import END
 _=load_dotenv(find_dotenv())
 TOKEN=os.environ.get("BOT_TOKEN")
 CHAT_ID=os.environ.get("TELEGRAM_CHAT_ID")
-def create_recommendation(state:FarmerState):
-    """
-    Creating our recommendation!
-    """
-    topic=state.get("topic","")
+def fetch_farm_data(state:FarmerState):
     plots=get_all_plots(db_path)
     sensor_readings=get_last_h_readings(db_path)
-    structured_llm=local_llm.with_structured_output(Recommendation)
-    system_message=recom_prompt.format(sensor_readings=sensor_readings,
-                                 plots=plots)
-    recom=structured_llm.invoke([SystemMessage(content=system_message),HumanMessage(content="Generate the best possible recommendation to our farm")])
+    return {"plots":plots,
+        "sensor_readings":sensor_readings
+    }
+def test_recommendation(state:FarmerState):
+    prompt=f"""
+     You are an agriculture assistant.Based on the following information provide recommendations to the farmer.
+     Plots:{state["plots"]}
+     Sensor_readings:{state["sensor_readings"]}
+            """
+    response=local_llm.invoke(prompt)
     return {
-        "plots":plots ,
-        "sensor_readings":sensor_readings,
-            "recommendation":recom.recommendation}
+        "recommendation":response.content }
     
 def detect_manual_sensor_anomalies(path:Path=db_path):
     df=pd.DataFrame(get_last_h_readings(db_path))
