@@ -1,4 +1,4 @@
-from src.utils.nodes2 import create_recommendation,detect_sensor_anomalies,sensor_anomaly_router,send_alert,send_alert_router
+from src.utils.nodes2 import create_recommendation,detect_sensor_anomalies,detect_manual_sensor_anomalies,sensor_anomaly_router,send_alert,send_alert_router
 from langgraph.graph import START,END,StateGraph
 from typing import List,Tuple 
 from src.utils.objects2 import FarmerState 
@@ -9,7 +9,7 @@ _=load_dotenv(find_dotenv())
 builder=StateGraph(FarmerState)
 #Here we have our nodes:
 builder.add_node("create_recommendation",create_recommendation)
-builder.add_node("detect_sensor_anomalies",detect_sensor_anomalies)
+builder.add_node("detect_sensor_anomalies",detect_manual_sensor_anomalies) 
 builder.add_node("send_alert",send_alert)
 #Here we add our edges:
 builder.add_edge(START,"create_recommendation")
