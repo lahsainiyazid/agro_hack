@@ -26,6 +26,7 @@ def test_recommendation(state:FarmerState):
      You are an agriculture assistant.Based on the following information provide recommendations to the farmer.
      Plots:{state["plots"]}
      Sensor_readings:{state["sensor_readings"]}
+     Sensor_anomalies:{state["anomalies"]}
             """
     response=local_llm.invoke(prompt)
     return {
