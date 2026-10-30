@@ -77,10 +77,13 @@ def send_alert(state:FarmerState):
 
 def send_alert_router(state:FarmerState):
     """
-    Here is a simple anomlay router script to send alerts
+    Here is a simple anomaly  router script to send alerts
     """
     if (state.get("anomaly_suspected")):
         return "send_alert"
     return END
 
+def write_recommendation(state:FarmerState):
+    file_path=Path("/home/yazid/agro/agent/src/utils/recommendation.txt")
+    file_path.write_text(state["recommendation"])
     
