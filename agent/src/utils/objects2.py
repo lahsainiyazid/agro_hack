@@ -22,4 +22,3 @@ class SensorAnomalyItem(BaseModel):
     explanation:str=Field(description="Reasoning behind why it is anomaly or not!")
 
 
-

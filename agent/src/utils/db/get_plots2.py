@@ -1,7 +1,7 @@
 import sqlite3 
 from typing import List,Dict 
 from pathlib import Path 
-from src.utils.db.db_path import db_path
+from src.utils.db.db_path2 import db_path
 
 def get_all_plots(db_path:Path)->List[Dict]:
     with sqlite3.connect(db_path) as conn:
