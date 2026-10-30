@@ -1,0 +1,1 @@
+Sensor 4 shows anomalies because its soil moisture reading is -99.0 (an impossible negative value) and its air temperature is 120.0°C, far outside the expected range for the environment. These extreme values trigger the anomaly flags for soil_moisture_anom and air_temp_anom. All other sensors report realistic values within normal ranges, so no anomalies are detected for them.

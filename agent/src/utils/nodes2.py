@@ -75,15 +75,19 @@ def send_alert(state:FarmerState):
     "text": anomaly_report}
     requests.post(url,json=payload)
 
-def send_alert_router(state:FarmerState):
+def write_alert_router(state:FarmerState):
     """
     Here is a simple anomaly  router script to send alerts
     """
     if (state.get("anomaly_suspected")):
-        return "send_alert"
+        return "write_alert"
     return END
 
 def write_recommendation(state:FarmerState):
     file_path=Path("/home/yazid/agro/agent/src/utils/recommendation.txt")
     file_path.write_text(state["recommendation"])
+
+def write_alert(state:FarmerState):
+    file_path=Path("/home/yazid/agro/agent/src/utils/alert.txt")
+    file_path.write_text(state["anomaly_report"])
     
