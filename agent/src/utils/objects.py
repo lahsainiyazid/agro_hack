@@ -7,11 +7,19 @@ class FarmerState(TypedDict):
     recommendation:str|None
     anomaly_suspected:bool 
     anomaly_report:str|None 
-    is_real_anomaly:bool 
+    anomalies:List[SensorAnomalyItem]
 class Recommendation(BaseModel):
     recommendation:str=Field(description="Practical recommendation to the farmer based on the farm data ")
     anomaly_suspected:bool=Field(description="Do you suspect that there is anomaly!")
 
 class SensorAnomaly(BaseModel):
-    anomaly_report:str=Field(description="Check if there is a sensor anomaly")
-    is_real_anomaly:bool=Field(description="If you had to predict is it a real anomaly or not!")
+    anomaly_report:str=Field(description="Summary of detected sensor anomalies!")
+    anomalies:List[SensorAnomalyItem]=Field(description="Anomaly assesment for each sensor reading")
+    
+class SensorAnomalyItem(BaseModel):
+    sensor_id:str=Field(description="Id of the sensor")
+    is_anomaly:bool=Field(description="Is it anomaly or not ")
+    explanation:str=Field(description="Reasoning behind why it is anomaly or not!")
+
+
+

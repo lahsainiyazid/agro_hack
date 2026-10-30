@@ -10,4 +10,5 @@ anomaly_prompt="""
   2-Look at the plots {plots}
   3-Look at the recommendation{recommendation}
   4-Check if there was a suspected anomaly {anomaly_suspected}
+  5-For each sensor  generate a boolean value is there anomaly or not !
     """
