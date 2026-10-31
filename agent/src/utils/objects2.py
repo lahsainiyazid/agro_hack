@@ -2,7 +2,7 @@ from typing import List,Dict,TypedDict
 from pydantic import BaseModel,Field
 
 class SensorAnomalyItem(BaseModel):
-    anomaly_pair:Dict[str,bool]=Field(description="Key:sensor id,value:boolean is empty or not!")
+    anomaly_pair:Dict[int,bool]=Field(description="Key:sensor id,value:boolean is empty or not!")
 
 class SensorAnomaly(BaseModel):
     anomaly_report:str=Field(description="Summary of detected sensor anomalies!")

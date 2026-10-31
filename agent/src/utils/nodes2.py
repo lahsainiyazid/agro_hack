@@ -101,8 +101,23 @@ def take_action(state:FarmerState):
     df=df_plots.merge(df_sensors,left_on="id",right_on="plot_id")
     anomalies=state["anomalies"]
     anomalies_dict=anomalies[0].anomaly_pair
+    df_anomalies=pd.DataFrame(anomalies_dict.items(),columns=["sensor_id","anomaly_status"])
+    df=df.merge(df_anomalies,left_on="id_y",right_on="sensor_id")
+    action_cols=["moisture_min_pct","moisture_target_pct","anomaly_status","soil_moisture"]
+    df_actions=df.apply(decide_action,axis=1)
+    df_actions.index=df_actions.index+1
+    
     return {
-        "actions":df.to_dict(),
+        "actions":df_actions.to_dict(),
     "anomalies_dict":anomalies_dict
     }
-    
+
+def decide_action(row):
+    if(row["anomaly_status"]):
+        return "CHECK_SENSOR"
+    else :
+        if (row["soil_moisture"]<row["moisture_min_pct"]):
+            return "WATER"
+        else:
+            return "WAIT"
+

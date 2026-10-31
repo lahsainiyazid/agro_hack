@@ -2,4 +2,4 @@ Based on the provided information, I recommend the following to the farmer:
 
 **Crop Management**
 
-1. **Monitor soil moisture levels**: The current soil moisture levels are
+* For 'North Plot - Olive', consider increasing the moisture target percentage
