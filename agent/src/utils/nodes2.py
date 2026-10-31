@@ -98,10 +98,11 @@ def take_action(state:FarmerState):
     anomalies=state["anomalies"]
     df_plots=pd.DataFrame(plots)
     df_sensors=pd.DataFrame(sensor_readings)
-    df_anomalies=pd.DataFrame(anomalies)
     df=df_plots.merge(df_sensors,left_on="id",right_on="plot_id")
+    anomalies=state["anomalies"]
+    anomalies_dict=anomalies[0].anomaly_pair
     return {
         "actions":df.to_dict(),
-    "anomalies_dict":df_anomalies.to_dict()
+    "anomalies_dict":anomalies_dict
     }
     
