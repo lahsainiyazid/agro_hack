@@ -90,4 +90,18 @@ def write_recommendation(state:FarmerState):
 def write_alert(state:FarmerState):
     file_path=Path("/home/yazid/agro/agent/src/utils/alert.txt")
     file_path.write_text(state["anomaly_report"])
+   
+
+def take_action(state:FarmerState):
+    plots=state["plots"]
+    sensor_readings=state["sensor_readings"]
+    anomalies=state["anomalies"]
+    df_plots=pd.DataFrame(plots)
+    df_sensors=pd.DataFrame(sensor_readings)
+    df_anomalies=pd.DataFrame(anomalies)
+    df=df_plots.merge(df_sensors,left_on="id",right_on="plot_id")
+    return {
+        "actions":df.to_dict(),
+    "anomalies_dict":df_anomalies.to_dict()
+    }
     

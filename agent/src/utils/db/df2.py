@@ -20,9 +20,6 @@ def check_anomaly(path:Path=db_path)->List[Dict[str,bool]]:
     df_anom=df[anomaly_cols].any(axis=1)
     anom_list=[{str(idx):val} for idx,val in df_anom.items()]
     return anom_list
-
 if __name__=="__main__":
    
-  my_list=check_anomaly() 
-  print(my_list)
 
