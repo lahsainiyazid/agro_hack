@@ -42,7 +42,7 @@ def detect_manual_sensor_anomalies(path:Path=db_path):
     anomaly_cols=["soil_moisture_anom","air_temp_anom","air_hum_anom","soil_temperature_anom","rainfall_anom"]
     df_anom=df[anomaly_cols].any(axis=1)
     has_anom=df_anom.any()
-    anom_list=[{str(idx):val} for idx,val in df_anom.items()]
+    anom_list=[{str(idx+1):val} for idx,val in df_anom.items()]
     structured_llm=llm.with_structured_output(SensorAnomaly)
     system_message=manual_anomaly_prompt.format(
      data=df,
